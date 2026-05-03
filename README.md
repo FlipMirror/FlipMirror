@@ -3,7 +3,7 @@
 
 Установка:
 
-1. Скачать расширение
+1. Скачать расширение:
 
   * [Скачать FlipMirror ZIP](https://github.com/FlipMirror/FlipMirror/raw/refs/heads/main/FlipMirror/downloads/FlipMirror.zip)
 
