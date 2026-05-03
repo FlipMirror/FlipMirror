@@ -5,6 +5,6 @@
 
 Скачать расширение
 
-#000000[Скачать FlipMirror ZIP](https://github.com/FlipMirror/FlipMirror/raw/refs/heads/main/FlipMirror/downloads/FlipMirror.zip)
+#000000 [Скачать FlipMirror ZIP](https://github.com/FlipMirror/FlipMirror/raw/refs/heads/main/FlipMirror/downloads/FlipMirror.zip)
 
 Войти в раздел "Расширения" и "Управление расширениями" браузера. Передвинуть ползунок "Режим разработчика".  Нажать "Загрузить распакованное расширение" и выбрать папку с необходимым расширением.
