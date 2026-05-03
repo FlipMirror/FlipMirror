@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "FlipMirror",
+  "version": "1.0",
+  "icons": {
+        "16":"icons/16.png",
+        "32":"icons/32.png",
+        "48":"icons/48.png",
+        "128":"icons/128.png"
+    },
+  "description": "Расширение для зеркального отражения видео на YouTube и VK Видео",
+  "permissions": ["activeTab", "scripting", "storage"],
+  "host_permissions": [
+    "*://*.youtube.com/*",
+    "*://*.vk.com/*",
+    "*://*.vkvideo.ru/*"
+  ],
+"background": {
+  "service_worker": "background.js"
+},
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.youtube.com/*",
+        "*://*.vk.com/*",
+        "*://*.vkvideo.ru/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  }
+}
