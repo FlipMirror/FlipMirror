@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<style>
+
+/* ===== ОБЛАКА ===== */
+#cloud-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.cloud {
+  position: absolute;
+  width: 50px;
+  height: 20px;
+  background: #ffffff;
+  border-radius: 999px;
+
+  box-shadow:
+    -12px 6px 0 #ffffff,
+     12px 6px 0 #ffffff;
+
+  filter:
+    drop-shadow(0 0 3px rgba(0,191,255,0.25))
+    drop-shadow(0 0 6px rgba(0,191,255,0.18));
+
+  opacity: 0.95;
+}
+
+.cloud.c1 { top: 25px; left: 20px; }
+.cloud.c2 { top: 40px; right: 25px; }
+
+/* ↓ ЧУТЬ ЛЕВЕЕ, РОВНО */
+.cloud.c3 { 
+  bottom: 50px; 
+  left: 70px; 
+}
+
+/* ===== БАЗА ===== */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 300px;
+  height: 200px;
+  overflow: hidden;
+  font-family: sans-serif;
+}
+
+/* ===== ЗАГОЛОВОК ===== */
+.app-title {
+  margin-top: 12px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 900;
+  color: white;
+  -webkit-text-stroke: 1px #1faee9;
+
+  text-shadow:
+    0 0 6px rgba(0,191,255,0.35),
+    0 0 14px rgba(0,191,255,0.3),
+    0 0 26px rgba(0,191,255,0.25),
+    0 0 40px rgba(0,191,255,0.2),
+    0 0 60px rgba(0,191,255,0.15);
+}
+
+/* ===== КОНТЕЙНЕР ===== */
+.wrapper {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  margin-top: 26px;
+}
+
+/* ===== КОЛОНКА ===== */
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ===== СТРОКА ===== */
+.toggle-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* ===== ИКОНКИ ===== */
+.label {
+  width: 34px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  font-size: 16px;
+  opacity: 0.5;
+  transition: 0.2s;
+}
+
+.label.active {
+  opacity: 1;
+}
+
+/* ===== ЛАМПОЧКА OFF ===== */
+.lamp-off {
+  position: relative;
+}
+
+.lamp-off::before {
+  content: "💡";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: grayscale(100%) brightness(0.7);
+}
+
+.lamp-off::after {
+  content: "❌";
+  color: red;
+  font-size: 17px;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== PiP ===== */
+.pip-icon {
+  width: 20px;
+  height: 14px;
+  position: relative;
+}
+
+.pip-icon::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 2px solid black;
+  border-radius: 3px;
+}
+
+.pip-icon::after {
+  content: "";
+  position: absolute;
+  width: 7px;
+  height: 5px;
+  border: 2px solid black;
+  border-radius: 2px;
+  bottom: 1px;
+  right: 1px;
+}
+
+.pip-off::after {
+  content: "❌";
+  color: red;
+  font-size: 17px;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== СВИТЧ ===== */
+.switch {
+  position: relative;
+  width: 46px;
+  height: 24px;
+}
+
+.switch input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  inset: 0;
+  background-color: red;
+  border-radius: 24px;
+  transition: 0.25s;
+}
+
+.slider:before {
+  content: "";
+  position: absolute;
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background: white;
+  border-radius: 50%;
+  transition: 0.25s;
+}
+
+input:checked + .slider {
+  background-color: #00b84d;
+}
+
+input:checked + .slider:before {
+  transform: translateX(22px);
+}
+
+/* ===== СМАЙЛ ===== */
+#mood {
+  font-size: 44px;
+  position: relative;
+}
+
+#mood.flash {
+  animation: moodPop 0.35s ease;
+}
+
+@keyframes moodPop {
+  0% { transform: scale(0.85); }
+  40% { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+
+#mood::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 150px;
+  height: 150px;
+  transform: translate(-50%, -50%) scale(0.6);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255,215,0,0.6) 0%,
+    rgba(255,200,0,0.3) 40%,
+    transparent 75%
+  );
+  opacity: 0;
+}
+
+#mood.flash::before {
+  animation: flashBurst 0.35s ease;
+}
+
+@keyframes flashBurst {
+  0% { opacity:0; transform:translate(-50%,-50%) scale(0.5);}
+  30% { opacity:1; transform:translate(-50%,-50%) scale(1.4);}
+  100% { opacity:0; transform:translate(-50%,-50%) scale(1.8);}
+}
+
+/* ===== DONATE ===== */
+.donate-block {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.donate-title {
+  font-size: 12px;
+  font-weight: 700;
+  opacity: 0.55;
+}
+
+#donateBtn {
+  background: linear-gradient(to left,#d96b4a,#e08a4a,#e0c07a);
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 700;
+  filter: brightness(0.95);
+  transition: filter 0.2s ease;
+}
+
+#donateBtn:hover {
+  filter: brightness(1.05);
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="cloud-bg">
+  <div class="cloud c1"></div>
+  <div class="cloud c2"></div>
+  <div class="cloud c3"></div>
+</div>
+
+<div class="app-title">FlipMirror</div>
+
+<div class="wrapper">
+
+  <div class="controls">
+    <div class="toggle-container">
+      <span class="label lamp-off" id="offLabel"></span>
+      <label class="switch">
+        <input type="checkbox" id="toggle">
+        <span class="slider"></span>
+      </label>
+      <span class="label" id="onLabel">💡</span>
+    </div>
+
+    <div class="toggle-container">
+      <span class="label pip-off" id="pipOffLabel">
+        <div class="pip-icon"></div>
+      </span>
+      <label class="switch">
+        <input type="checkbox" id="pipToggle">
+        <span class="slider"></span>
+      </label>
+      <span class="label" id="pipOnLabel">
+        <div class="pip-icon"></div>
+      </span>
+    </div>
+  </div>
+
+  <span id="mood">😊</span>
+
+</div>
+
+<div class="donate-block">
+  <div class="donate-title">Поддержать меня</div>
+  <button id="donateBtn">Donate</button>
+</div>
+
+<script src="popup.js"></script>
+
+</body>
+</html>
